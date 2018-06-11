@@ -17,7 +17,7 @@ $ docker build -t marsmensch/pivx-testnet-h1 .
 
 ### How to use this image
 
-This image contains the main binaries from the PIVX Core project - `pivxd`, `pivx-cli` and `pivx-tx`. It behaves like a binary, so you can pass any arguments to the image and they will be forwarded to the `pivxd` binary:
+This image contains the main binaries from the PIVX Core project - `pivxd`, `pivx-cli` and `pivx-tx`. It behaves like a binary, so you can [pass any command line arguments](https://github.com/PIVX-Project/PIVX/wiki/Running-PIVX) to the image and they will be forwarded to the `pivxd` binary:
 
 ```sh
 $ docker run --rm --name pivx-testnet -it marsmensch/pivx-testnet-h1 \
