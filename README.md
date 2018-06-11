@@ -1,6 +1,6 @@
-# marsmensch/docker-pivx-core
+# What am i looking at?
 
-A PIVX Core docker image. Based on Alpine Linux with Berkeley DB 4.8 (cross-compatible build), targets a specific version branch or release of PIVX Core.
+A PIVX Core docker image to be used for the h1 bug hunting program https://hackerone.com/pivx-project/. 
 
 ## What is PIVX?
 _from [the pivx website](https://pivx.org/what-is-pivx/)_
