@@ -1,10 +1,9 @@
 FROM debian:stable-slim
 
-LABEL maintainer.0="João Fonseca (@joaopaulofonseca)" \
-  maintainer.1="Pedro Branco (@pedrobranco)" \
-  maintainer.2="Rui Marinho (@ruimarinho)"
+LABEL maintainer.0="PIVX security team <security@pivx.org>" \
+  maintainer.1="Marsmensch <marsmensch@pm.me>"
 
-RUN useradd -r dash \
+RUN useradd -r pivx \
   && apt-get update -y \
   && apt-get install -y curl gnupg unzip \
   && apt-get clean \
@@ -13,7 +12,7 @@ RUN useradd -r dash \
   && for key in \
     B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     4B88269ABD8DF332 \
-  ; do \
+  ; do \	
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
     gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
     gpg --keyserver keyserver.pgp.com --recv-keys "$key" || \
@@ -28,23 +27,21 @@ RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/dow
   && rm /usr/local/bin/gosu.asc \
   && chmod +x /usr/local/bin/gosu
 
-ENV DASH_VERSION=0.12.2.2
-ENV DASH_FOLDER_VERSION=0.12.2
-ENV DASH_DATA=/home/dash/.dashcore \
-  PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
-RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && gpg --verify dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && tar -xzf dashcore-${DASH_VERSION}-linux64.tar.gz -C /opt \
+ENV PIVX_VERSION=3.1.0.2
+ENV PIVX_DATA=/home/pivx/.pivx \
+  PATH=/opt/pivx-3.1.0/bin:$PATH
+
+RUN curl -SLO https://github.com/PIVX-Project/PIVX/releases/download/v${PIVX_VERSION}/pivx-${PIVX_VERSION}-x86_64-linux-gnu.tar.gz \
+  && tar -xzf pivx-${PIVX_VERSION}-x86_64-linux-gnu.tar.gz -C /opt \
   && rm *.tar.gz
 
-VOLUME ["/home/dash/.dashcore"]
+VOLUME ["/home/pivx/.pivx"]
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 9998 9999 18332 19998 19999
+# tor control port, p2p testnet port,  
+EXPOSE 9051 51474
 
-CMD ["dashd"]
+CMD ["pivxd"]
