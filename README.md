@@ -1,6 +1,6 @@
-# marsmensch/docker-pivx-core
+# What am i looking at?
 
-A PIVX Core docker image. Based on Alpine Linux with Berkeley DB 4.8 (cross-compatible build), targets a specific version branch or release of PIVX Core.
+A PIVX Core docker image to be used for the h1 bug hunting program https://hackerone.com/pivx-project/. 
 
 ## What is PIVX?
 _from [the pivx website](https://pivx.org/what-is-pivx/)_
@@ -12,7 +12,7 @@ PIVX is a form of digital online money using blockchain technology that can be e
 This image is meant to be built locally like this (choose any name / tag):
 
 ```sh
-$ docker build -t marsmensch/pivx-testbox . 
+$ docker build -t marsmensch/pivx-testnet-h1 . 
 ```
 
 ### How to use this image
@@ -20,7 +20,7 @@ $ docker build -t marsmensch/pivx-testbox .
 This image contains the main binaries from the PIVX Core project - `pivxd`, `pivx-cli` and `pivx-tx`. It behaves like a binary, so you can pass any arguments to the image and they will be forwarded to the `pivxd` binary:
 
 ```sh
-$ docker run --rm --name pivx-testnet -it marsmensch/pivx-testbox \
+$ docker run --rm --name pivx-testnet -it marsmensch/pivx-testnet-h1 \
   -printtoconsole \
   -testnet=1 \
   -rpcallowip=172.17.0.0/16 \
@@ -31,7 +31,7 @@ $ docker run --rm --name pivx-testnet -it marsmensch/pivx-testbox \
 By default, `pivxd` will run as user `pivx` for security reasons and with its default data dir (`~/.pivx`). If you'd like to customize where `pivx-core` stores its data, you must use the `PIVX_DATA` environment variable. The directory will be automatically created with the correct permissions for the `pivx` user and `pivx-core` is automatically configured to use it.
 
 ```sh
-$ docker run --env PIVX_DATA=/var/lib/pivx --rm --name pivx-testnet -it marsmensch/pivx-testbox \
+$ docker run --env PIVX_DATA=/var/lib/pivx --rm --name pivx-testnet -it marsmensch/pivx-testnet-h1 \
   -printtoconsole \
   -testnet=1
 ```
@@ -39,7 +39,7 @@ $ docker run --env PIVX_DATA=/var/lib/pivx --rm --name pivx-testnet -it marsmens
 You can also mount a directory it in a volume under `/home/pivx/.pivx` in case you want to access it on the host:
 
 ```sh
-$ docker run -v ${PWD}/data:/home/pivx/.pivx -it --name pivx-testnet --rm marsmensch/pivx-testbox \
+$ docker run -v ${PWD}/data:/home/pivx/.pivx -it --name pivx-testnet --rm marsmensch/pivx-testnet-h1 \
   -printtoconsole \
   -regtest=1
 ```
@@ -57,7 +57,7 @@ The second option is making a remote procedure call using a username and passwor
 Start by launch the PIVX Core daemon:
 
 ```sh
-❯ docker run --rm --name pivx-testnet -it marsmensch/pivx-testbox \
+❯ docker run --rm --name pivx-testnet -it marsmensch/pivx-testnet-h1 \
   -printtoconsole \
   -testnet=1
   -rpcuser=foo
@@ -85,9 +85,6 @@ Then, inside the running `pivx-server` container, locally execute the query to t
 }
 ```
 
-In the background, `pivx-cli` read the information automatically from `XXXXXXXXXXXLALALALALALALLALA/home/pivx/.pivx/testnet/.cookie`. In production, the path would not contain the regtest part.
-
-
 ## Supported Docker versions
 
 This image is officially supported on Docker 18 CE, with support for older versions provided on a best-effort basis.
@@ -96,4 +93,4 @@ This image is officially supported on Docker 18 CE, with support for older versi
 
 [License information](https://github.com/PIVX-Project/PIVX/blob/master/COPYING) for the software contained in this image.
 [License information](https://github.com/uphold/docker-dash-core/blob/master/LICENSE) for the [uphold/dash-core][docker-hub-url] docker project.
-[License information](https://github.com/marsmensch/docker-dash-core/blob/master/LICENSE) for my modifications in this repository.
+[License information](https://github.com/marsmensch/pivx-dash-core/blob/master/LICENSE) for my modifications in this repository.
