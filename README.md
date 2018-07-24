@@ -2,6 +2,10 @@
 
 A PIVX Core docker image to be used for the h1 bug hunting program https://hackerone.com/pivx-project/. 
 
+## Pre-requirements
+[Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) 18 CE or above.
+
+
 ## What is PIVX?
 _from [the pivx website](https://pivx.org/what-is-pivx/)_
 
